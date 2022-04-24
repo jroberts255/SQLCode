@@ -1,0 +1,112 @@
+use leeannevineyard;
+
+#Question 1
+select employeesupid, employeefn, employeeln
+from employee
+where idemployee not like 1
+;
+
+#Question 2
+select v.Employee_idEmployee, e.idEmployee, e.employeefn, e.employeeln, v.vineyardname
+from employee e, vineyard v
+where v.Employee_idEmployee=e.idemployee
+;
+
+#Question 3
+select distinct vp.idvineyard, g.idgrape, vineyardname, VintageYear
+from vineyard_planting vp, vineyard v, grape g
+where vp.idvineyard=v.idvineyard
+and g.idgrape=vp.grape_idgrape
+and vintageyear like 2000
+order by idvineyard
+;
+#Question 4
+select wine_idwine, grape_idgrape,conversion_ratio
+from juice
+;
+#Question 5
+select b.idbottle, Grape_idgrape, wine_idwine
+from bottle b, wine w, product p, juice j
+where w.idwine = p.idwine
+and p.idbottle = b.idbottle
+and j.wine_idwine = w.idwine
+order by grape_idgrape, wine_idwine;
+
+#Question 6
+select Grape_idGrape, GrapeName, round(Avg(HarvestRipeness),2) as HarvestRipnessPerGrape
+from vintage v, grape g
+where
+g.idGrape = v.Grape_idGrape
+group by grape_idgrape;
+
+
+#Question 7
+select Grape_idGrape as Grape, GrapeName, sum(HarvestAmount), VintageYear
+from vintage v, grape g
+where
+g.idGrape = v.Grape_idGrape
+and vintageyear = 2018
+group by vintageyear, Grape_idGrape;
+
+
+#Question 8
+select distinct IdWine, WineName, EmployeeLn, EmployeeFn, Employee_idEmployee as EmployeeID
+from wine w, employee e
+where w.Employee_idEmployee = e.idEmployee
+group by IDWine;
+
+#Question 9
+select Grape_idGrape as GrapeID, WineName, GrapeName
+from grape g, wine w, juice j
+where g.idgrape = j.grape_idgrape
+and j.wine_idwine  = w.idwine
+order by winename, Grapename
+;
+
+#Question 10
+select idWine, WineName, idGrape, GrapeName, GrapeProportion
+from Wine w, Grape g, Juice j
+where w.idwine = j.Wine_idWine and g.idGrape = j.Grape_idGrape
+Order by idWine;
+
+#Question 11
+select idproduct, w.idwine, winename, bottleshape, bottlecolor, bottlequantity 
+from wine w, product p, bottle b
+where p.idWine = w.idwine and b.idbottle = p.idbottle;
+#Question 12
+select co.idcus_order, customertype, orderrecdate, sum(bottlequantity) from cus_order co, customer c, 
+product p, case_has_cus_order ch
+where c.idCustomer = co.Customer_idCustomer and p.idProduct = ch.idProduct and co.idcus_order = ch.idCus_Order
+and orderrecdate > '2019-10-01'
+group by idcus_order;
+#Question 13
+select idbottle, bottleshape, bottlecolor, bottleprice from bottle;
+select avg(bottleprice) as AvgBottlePrice from bottle;
+# objectivte 14
+select distinct vendorname, go.idGlass_Vendor, idBottle
+from vendor_orders vo, glass_vendor go
+where vo.idGlass_Vendor=go.idGlass_Vendor;
+
+# objective 15
+select *from cus_order;
+
+# objective 16
+Select distinct companyname, winename
+from wine w, customer, customer_company, cus_order co, case_has_cus_order cco, product p
+where w.idWine= p.idWine and
+p.idproduct = cco.idProduct and
+ cco.idCus_Order= co.idCus_Order;
+
+Select distinct customerfn, customerln, winename
+from wine w, customer, customer_individual, cus_order co, case_has_cus_order cco, product p
+where w.idWine= p.idWine and
+p.idproduct = cco.idProduct and
+ cco.idCus_Order= co.idCus_Order;
+ 
+ # objective 17
+ select idcus_order, Shipdate, orderrecdate
+ from cus_order;
+ 
+ 
+
+
